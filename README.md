@@ -4,6 +4,10 @@
 
 see [`glm`](https://github.com/sassbalint/ml/tree/main/glm)
 
+## clustering
+
+see [`clustering`](https://github.com/sassbalint/ml/tree/main/clustering)
+
 ## numpy details
 
 see [`numpy`](https://github.com/sassbalint/ml/tree/main/numpy)
