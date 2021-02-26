@@ -1,8 +1,8 @@
 # learning machine learning -- with scikit-learn
 
-## clustering
+## generalized linear models (GLM)
 
-see [`clustering`](https://github.com/sassbalint/ml/tree/main/clustering)
+see [`glm`](https://github.com/sassbalint/ml/tree/main/glm)
 
 ## numpy details
 
