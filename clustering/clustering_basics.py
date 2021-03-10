@@ -1,8 +1,13 @@
+
+import sys
+
 import numpy as np
 from sklearn.preprocessing import normalize
 from scipy.spatial import distance
 from sklearn.mixture import GaussianMixture
 from sklearn.cluster import KMeans
+
+MAX_CLUSTERS = 8
 
 np.set_printoptions(precision=2)
 
@@ -31,8 +36,34 @@ datas = [
     ])
 ]
 
+
+# XXX argparse!!!
+# XXX kategoriális adat -> OneHotEncoder()-rel kellene csinálni!
+# XXX óriási hekkek vannak ezzel a '3' számú adathalmazzal
+# XXX gondolom, ezeket mind érdemes lenne kitenni paraméterbe!
+with open(sys.argv[1], encoding='utf-8') as inputfile:
+    wordlabels = []
+    vectors = []
+    for line in inputfile:
+        wordlabel, *vector = line.strip().split('\t')
+        wordlabels.append(wordlabel)
+        vectors.append([int(v) for v in vector])
+
+datas.append(np.array(vectors))
+
+# XXX hekk: '3'-ban ne legyen 0
+#     és most épp tuti is, hogy ezáltal nem lesz...
+datas[3] += 1
+
 # normalize: default is L2 norm and axis=1 (= each sample indep)
-norm_datas = [normalize(data) for data in datas]
+# XXX '3'-t nem normalizáljuk
+norm_datas = [
+    normalize(datas[0]),
+    normalize(datas[1]),
+    normalize(datas[2]),
+    datas[3]
+]
+
 
 for data, norm_data in zip(datas, norm_datas):
 
@@ -49,8 +80,9 @@ for data, norm_data in zip(datas, norm_datas):
     #     acc to https://stackoverflow.com/questions/18424228
 
     print()
-    for n in [2, 3, 4]:
+    for n in range(2, min(MAX_CLUSTERS, len(norm_data)) + 1):
 
+        print()
         print(f'--- components = {n}')
 
         # method chosen from
@@ -68,6 +100,14 @@ for data, norm_data in zip(datas, norm_datas):
             res = model.predict(norm_data)
 
             print(f'--- model = {model}')
-            print(f'{res}')
+            print(f'--- result = {res}')
             # data[0] és n=2 esetén: [1, 1, 0, 0] -- kiváló! :)
+
+            # XXX hekk, mert a fájlból jövő bementi adat
+            #     amihez vannak label értékek,
+            #     most épp 81 (Noémié) avagy 228 (Ágié) sort tartalmaz
+            #
+            if len(data) in {81, 228}:
+                for x, y, wl in zip(data, res, wordlabels):
+                    print(f'{"-".join(str(xv) for xv in x)}\t{y}\t{wl}')
 
