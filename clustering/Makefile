@@ -11,7 +11,16 @@ O=out
 # ===== MAIN STUFF 
 
 INPUT=specify_INPUT_on_command_line
-clustering:
+FLAGS=
+cluster:
 	@echo "--- $@" 1>&2
-	python3 clustering_basics.py $(INPUT)_vectors.csv > $(INPUT)_results.csv
+	python3 clustering_basics.py --file $(INPUT)_vectors.csv $(FLAGS) > $(INPUT)_results.csv
+
+cluster_all:
+	@echo "--- $@" 1>&2
+	make cluster INPUT=t1 FLAGS=-n
+	make cluster INPUT=t2 FLAGS=-n
+	make cluster INPUT=t3 FLAGS=-n
+	make cluster INPUT=nu FLAGS=-0
+	make cluster INPUT=ik FLAGS=-0
 

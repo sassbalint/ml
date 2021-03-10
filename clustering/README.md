@@ -4,10 +4,10 @@
 
 ### usage
 
-`make clustering INPUT=nu`\
+`make cluster INPUT=nu`\
 `nu_vectors.csv` :arrow_right: `nu_results.csv`
 
-`make clustering INPUT=ik`\
+`make cluster INPUT=ik`\
 `ik_vectors.csv` :arrow_right: `ik_results.csv`
 
 

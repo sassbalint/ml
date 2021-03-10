@@ -1,0 +1,6 @@
+# if n = 2 KMeans and GaussianMixture differs for this data!
+# both results are plausible :)
+x	10	11	12
+y	10	12	12
+w	11	12	13
+z	11	11	13

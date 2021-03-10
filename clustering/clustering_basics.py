@@ -1,4 +1,8 @@
+"""
+Learning scikit-learn clustering techniques.
+"""
 
+import argparse
 import sys
 
 import numpy as np
@@ -7,65 +11,36 @@ from scipy.spatial import distance
 from sklearn.mixture import GaussianMixture
 from sklearn.cluster import KMeans
 
-MAX_CLUSTERS = 8
 
-np.set_printoptions(precision=2)
-
-# data
-datas = [
-    np.array([
-        [10,20,30,40],
-        [12,21,30,40],
-        [6,5,4,9],
-        [12,6,6,10]
-    ]),
-    np.array([
-        [10,20,30,40],
-        [12,21,30,40],
-        [6,5,4,9],
-        [12,6,6,10],
-        [12,6,6,99],
-        [1200,600,600,9900]
-    ]),
-    np.array([ # here KMeans and GaussianMixture differs, if n = 2
-               # both results are plausible :)
-        [10,11,12],
-        [10,12,12],
-        [11,12,13],
-        [11,11,13],
-    ])
-]
+def handle_nullvector(data):
+    """Null vector is not allowed as cos-distance is not defined for it."""
+    # XXX ócska hekk, ami a nu_vectors.csv -re épp működik
+    return data + 1
 
 
-# XXX argparse!!!
-# XXX kategoriális adat -> OneHotEncoder()-rel kellene csinálni!
-# XXX óriási hekkek vannak ezzel a '3' számú adathalmazzal
-# XXX gondolom, ezeket mind érdemes lenne kitenni paraméterbe!
-with open(sys.argv[1], encoding='utf-8') as inputfile:
-    wordlabels = []
-    vectors = []
-    for line in inputfile:
-        wordlabel, *vector = line.strip().split('\t')
-        wordlabels.append(wordlabel)
-        vectors.append([int(v) for v in vector])
+def main():
+    """Do the thing."""
+    args = get_args()
 
-datas.append(np.array(vectors))
+    np.set_printoptions(precision=2)
 
-# XXX hekk: '3'-ban ne legyen 0
-#     és most épp tuti is, hogy ezáltal nem lesz...
-datas[3] += 1
+    # XXX kategoriális adat -> OneHotEncoder()-rel kellene csinálni!
+    with open(args.file, encoding='utf-8') as inputfile:
+        entities = []
+        vectors = []
+        for line in inputfile:
+            if line[0] == '#': continue
+            entity, *vector = line.strip().split('\t')
+            entities.append(entity)
+            vectors.append([int(v) for v in vector])
+    data = np.array(vectors)
 
-# normalize: default is L2 norm and axis=1 (= each sample indep)
-# XXX '3'-t nem normalizáljuk
-norm_datas = [
-    normalize(datas[0]),
-    normalize(datas[1]),
-    normalize(datas[2]),
-    datas[3]
-]
+    # cos distance used -> null vectors are not allowed
+    if args.handle_nullvector:
+        data = handle_nullvector(data)
 
-
-for data, norm_data in zip(datas, norm_datas):
+    # normalize: default is L2 norm (and axis=1 = each sample indep)
+    norm_data = normalize(data) if args.normalize else data
 
     print()
     for elem, norm_elem in zip(data, norm_data):
@@ -80,7 +55,7 @@ for data, norm_data in zip(datas, norm_datas):
     #     acc to https://stackoverflow.com/questions/18424228
 
     print()
-    for n in range(2, min(MAX_CLUSTERS, len(norm_data)) + 1):
+    for n in range(2, min(args.max_clusters, len(norm_data)) + 1):
 
         print()
         print(f'--- components = {n}')
@@ -96,18 +71,48 @@ for data, norm_data in zip(datas, norm_datas):
             # do the clustering
             model.fit(norm_data)
 
-            # get cluster ids
+            # get cluster identifiers
             res = model.predict(norm_data)
 
             print(f'--- model = {model}')
             print(f'--- result = {res}')
-            # data[0] és n=2 esetén: [1, 1, 0, 0] -- kiváló! :)
 
-            # XXX hekk, mert a fájlból jövő bementi adat
-            #     amihez vannak label értékek,
-            #     most épp 81 (Noémié) avagy 228 (Ágié) sort tartalmaz
-            #
-            if len(data) in {81, 228}:
-                for x, y, wl in zip(data, res, wordlabels):
-                    print(f'{"-".join(str(xv) for xv in x)}\t{y}\t{wl}')
+            for x, y, wl in zip(data, res, entities):
+                print(f'{"-".join(str(xv) for xv in x)}\t{y}\t{wl}')
 
+
+def get_args():
+    """Parse command line arguments."""
+    parser = argparse.ArgumentParser(
+        description=__doc__,
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter
+    )
+    parser.add_argument(
+        '-f', '--file',
+        help='input csv file: entity + vector',
+        required=True,
+        type=str,
+        default=argparse.SUPPRESS
+    )
+    parser.add_argument(
+        '-m', '--max-clusters',
+        help='maximum number of clusters',
+        type=int,
+        default=8
+    )
+    parser.add_argument(
+        '-n', '--normalize',
+        help='normalize vectors using L2 norm',
+        action='store_true'
+    )
+    parser.add_argument(
+        '-0', '--handle-nullvector',
+        help='modify data not to have null vectors',
+        action='store_true'
+    )
+    
+    return parser.parse_args()
+
+
+if __name__ == '__main__':
+    main()
