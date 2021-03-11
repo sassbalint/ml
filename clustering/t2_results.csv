@@ -14,16 +14,16 @@ cos(4, 5) = 1.0000
 
 
 --- components = 2
+
 --- model = KMeans(n_clusters=2, random_state=42)
---- result = [0 0 0 0 1 1]
 10-20-30-40	0	a
 12-21-30-40	0	b
 6-5-4-9	0	c
 12-6-6-10	0	d
 12-6-6-99	1	e
 1200-600-600-9900	1	f
+
 --- model = GaussianMixture(n_components=2, random_state=42)
---- result = [0 0 0 0 1 1]
 10-20-30-40	0	a
 12-21-30-40	0	b
 6-5-4-9	0	c
@@ -32,73 +32,73 @@ cos(4, 5) = 1.0000
 1200-600-600-9900	1	f
 
 --- components = 3
+
 --- model = KMeans(n_clusters=3, random_state=42)
---- result = [2 2 0 0 1 1]
-10-20-30-40	2	a
-12-21-30-40	2	b
 6-5-4-9	0	c
 12-6-6-10	0	d
 12-6-6-99	1	e
 1200-600-600-9900	1	f
+10-20-30-40	2	a
+12-21-30-40	2	b
+
 --- model = GaussianMixture(n_components=3, random_state=42)
---- result = [2 2 0 0 1 1]
-10-20-30-40	2	a
-12-21-30-40	2	b
 6-5-4-9	0	c
 12-6-6-10	0	d
 12-6-6-99	1	e
 1200-600-600-9900	1	f
+10-20-30-40	2	a
+12-21-30-40	2	b
 
 --- components = 4
+
 --- model = KMeans(n_clusters=4, random_state=42)
---- result = [2 2 3 0 1 1]
-10-20-30-40	2	a
-12-21-30-40	2	b
-6-5-4-9	3	c
 12-6-6-10	0	d
 12-6-6-99	1	e
 1200-600-600-9900	1	f
+10-20-30-40	2	a
+12-21-30-40	2	b
+6-5-4-9	3	c
+
 --- model = GaussianMixture(n_components=4, random_state=42)
---- result = [2 2 3 0 1 1]
-10-20-30-40	2	a
-12-21-30-40	2	b
-6-5-4-9	3	c
 12-6-6-10	0	d
 12-6-6-99	1	e
 1200-600-600-9900	1	f
+10-20-30-40	2	a
+12-21-30-40	2	b
+6-5-4-9	3	c
 
 --- components = 5
+
 --- model = KMeans(n_clusters=5, random_state=42)
---- result = [4 2 3 0 1 1]
-10-20-30-40	4	a
-12-21-30-40	2	b
-6-5-4-9	3	c
 12-6-6-10	0	d
 12-6-6-99	1	e
 1200-600-600-9900	1	f
+12-21-30-40	2	b
+6-5-4-9	3	c
+10-20-30-40	4	a
+
 --- model = GaussianMixture(n_components=5, random_state=42)
---- result = [4 2 3 0 1 1]
-10-20-30-40	4	a
-12-21-30-40	2	b
-6-5-4-9	3	c
 12-6-6-10	0	d
 12-6-6-99	1	e
 1200-600-600-9900	1	f
+12-21-30-40	2	b
+6-5-4-9	3	c
+10-20-30-40	4	a
 
 --- components = 6
+
 --- model = KMeans(n_clusters=6, random_state=42)
---- result = [4 2 1 3 0 0]
-10-20-30-40	4	a
-12-21-30-40	2	b
-6-5-4-9	1	c
-12-6-6-10	3	d
 12-6-6-99	0	e
 1200-600-600-9900	0	f
---- model = GaussianMixture(n_components=6, random_state=42)
---- result = [4 2 3 0 1 1]
-10-20-30-40	4	a
+6-5-4-9	1	c
 12-21-30-40	2	b
-6-5-4-9	3	c
+12-6-6-10	3	d
+10-20-30-40	4	a
+
+--- model = GaussianMixture(n_components=6, random_state=42)
 12-6-6-10	0	d
 12-6-6-99	1	e
 1200-600-600-9900	1	f
+12-21-30-40	2	b
+6-5-4-9	3	c
+10-20-30-40	4	a

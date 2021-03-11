@@ -11,7 +11,7 @@ O=out
 # ===== MAIN STUFF 
 
 INPUT=specify_INPUT_on_command_line
-FLAGS=
+FLAGS=-0
 cluster:
 	@echo "--- $@" 1>&2
 	python3 clustering_basics.py --file $(INPUT)_vectors.csv $(FLAGS) > $(INPUT)_results.csv

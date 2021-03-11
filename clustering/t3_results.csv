@@ -10,43 +10,43 @@ cos(2, 3) = 0.9992
 
 
 --- components = 2
+
 --- model = KMeans(n_clusters=2, random_state=42)
---- result = [0 1 0 0]
 10-11-12	0	x
-10-12-12	1	y
 11-12-13	0	w
 11-11-13	0	z
+10-12-12	1	y
+
 --- model = GaussianMixture(n_components=2, random_state=42)
---- result = [1 1 1 0]
+11-11-13	0	z
 10-11-12	1	x
 10-12-12	1	y
 11-12-13	1	w
-11-11-13	0	z
 
 --- components = 3
+
 --- model = KMeans(n_clusters=3, random_state=42)
---- result = [1 2 1 0]
-10-11-12	1	x
-10-12-12	2	y
-11-12-13	1	w
 11-11-13	0	z
+10-11-12	1	x
+11-12-13	1	w
+10-12-12	2	y
+
 --- model = GaussianMixture(n_components=3, random_state=42)
---- result = [1 2 1 0]
-10-11-12	1	x
-10-12-12	2	y
-11-12-13	1	w
 11-11-13	0	z
+10-11-12	1	x
+11-12-13	1	w
+10-12-12	2	y
 
 --- components = 4
+
 --- model = KMeans(n_clusters=4, random_state=42)
---- result = [1 2 3 0]
+11-11-13	0	z
 10-11-12	1	x
 10-12-12	2	y
 11-12-13	3	w
-11-11-13	0	z
+
 --- model = GaussianMixture(n_components=4, random_state=42)
---- result = [1 2 3 0]
+11-11-13	0	z
 10-11-12	1	x
 10-12-12	2	y
 11-12-13	3	w
-11-11-13	0	z

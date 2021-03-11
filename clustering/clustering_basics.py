@@ -74,10 +74,11 @@ def main():
             # get cluster identifiers
             res = model.predict(norm_data)
 
+            print()
             print(f'--- model = {model}')
-            print(f'--- result = {res}')
 
-            for x, y, wl in zip(data, res, entities):
+            for x, y, wl in sorted(zip(data, res, entities), key=lambda x: x[1]):
+
                 print(f'{"-".join(str(xv) for xv in x)}\t{y}\t{wl}')
 
 
